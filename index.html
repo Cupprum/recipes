@@ -1,58 +1,63 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <title>Marked in the browser</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sam's recipes</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
 </head>
 
 <body>
-    <div id="content"></div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js"></script>
-    <script>
-        const owner = 'cupprum';
-        const repo = 'recipes';
-        const path = 'recipes';
-        const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    <div id="content">Loading a recipe...</div>
 
-        fetch(url)
-            .then(response => {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contentDiv = document.getElementById('content');
+            
+            async function getRandomRecipeUrl() {
+                const response = await fetch('https://api.github.com/repos/cupprum/recipes/contents/recipes');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch list of files:', response.statusText);
+                    throw new Error(`Failed to fetch file list: ${response.statusText}`);
                 }
-                return response.json();
-            })
-            .then(files => {
-                return files
+                
+                const files = await response.json();
+                const fileUrls = files
                     .filter(file => file.type === 'file')
                     .map(file => file.download_url);
-            })
-            .then(urls => {
-                let i = Math.floor(Math.random() * urls.length);
-                let url = urls[i];
 
-                const contentDiv = document.getElementById('content');
-                fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to fetch markdown file:', response.statusText);
-                        }
-                        return response.text();
-                    })
-                    .then(markdown => {
-                        const html = DOMPurify.sanitize(marked.parse(markdown));
-                        const recipeDiv = document.createElement('div');
-                        recipeDiv.innerHTML = html;
-                        contentDiv.appendChild(recipeDiv);
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with fetching the markdown file:', error);
-                    });
-            })
-            .catch(error => {
-                console.error('There was a problem with fetching a recipe: ', error);
-            });
+                if (fileUrls.length === 0) {
+                    throw new Error('No recipe files found.');
+                }
+
+                const randomIndex = Math.floor(Math.random() * fileUrls.length);
+                return fileUrls[randomIndex];
+            }
+
+            async function loadRandomRecipe() {
+                try {
+                    const recipeUrl = await getRandomRecipeUrl();
+                    
+                    const response = await fetch(recipeUrl);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch markdown: ${response.statusText}`);
+                    }
+                    
+                    const markdown = await response.text();
+                    const html = DOMPurify.sanitize(marked.parse(markdown));
+                    
+                    // Replace the "Loading..." text
+                    contentDiv.innerHTML = html;
+
+                } catch (error) {
+                    console.error('Problem fetching recipe:', error);
+                    contentDiv.innerHTML = '<p style="color: red;">Failed to load recipe.</p>';
+                }
+            }
+
+            loadRandomRecipe();
+        });
     </script>
 </body>
 
