@@ -11,5 +11,30 @@
     document.getElementById('content').innerHTML =
       marked.parse('# Marked in the browser\n\nRendered by **marked**.');
   </script>
+    <script>
+        const owner = 'cupprum';
+        const repo = 'recipes';
+        const path = 'recipes';
+        const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(files => {
+                const fileList = document.getElementById('fileList');
+                files.forEach(file => {
+                    if (file.type === 'file') {
+                        console.log(file.name);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    </script>
 </body>
 </html>
