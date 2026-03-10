@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,61 +13,108 @@
             padding: 0 20px;
             color: #333;
         }
+
+        #menu-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            font-size: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            right: -260px; /* Hidden */
+            width: 220px;
+            height: 100%;
+            background: #f4f4f4;
+            padding: 20px;
+            transition: 0.3s;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            z-index: 90;
+        }
+
+        #sidebar.open { right: 0; }
+
+        .recipe-link {
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            text-transform: capitalize;
+            text-decoration: none;
+            color: #555;
+        }
+
+        .recipe-link:hover { color: #000; }
+        
         h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        li { margin-bottom: 8px; }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
 </head>
-
 <body>
-    <div id="content">Loading a recipe...</div>
+    <button id="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <nav id="sidebar">
+        <h3>All Recipes</h3>
+        <div id="recipe-list">Loading list...</div>
+    </nav>
+
+    <div id="content">Loading recipe...</div>
 
     <script>
+        const sidebar = document.getElementById('sidebar');
+        const recipeList = document.getElementById('recipe-list');
         const contentDiv = document.getElementById('content');
 
-        async function getRandomRecipeUrl() {
-            const response = await fetch('https://api.github.com/repos/cupprum/recipes/contents/recipes');
-            if (!response.ok) {
-                throw new Error(`Failed to fetch file list: ${response.statusText}`);
-            }
-
-            const files = await response.json();
-            const fileUrls = files
-                .filter(file => file.type === 'file')
-                .map(file => file.download_url);
-
-            if (fileUrls.length === 0) {
-                throw new Error('No recipe files found.');
-            }
-
-            const randomIndex = Math.floor(Math.random() * fileUrls.length);
-            return fileUrls[randomIndex];
+        function toggleMenu() {
+            sidebar.classList.toggle('open');
         }
 
-        async function loadRandomRecipe() {
+        async function loadRecipe(url) {
             try {
-                const recipeUrl = await getRandomRecipeUrl();
-
-                const response = await fetch(recipeUrl);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch markdown: ${response.statusText}`);
-                }
-
-                const markdown = await response.text();
-                const html = DOMPurify.sanitize(marked.parse(markdown));
-
-                // Replace the "Loading..." text
-                contentDiv.innerHTML = html;
-
-            } catch (error) {
-                console.error('Problem fetching recipe:', error);
-                contentDiv.innerHTML = '<p style="color: red;">Failed to load recipe.</p>';
+                contentDiv.innerHTML = 'Loading recipe...';
+                const res = await fetch(url);
+                const md = await res.text();
+                contentDiv.innerHTML = DOMPurify.sanitize(marked.parse(md));
+                sidebar.classList.remove('open'); // Auto-close menu
+                window.scrollTo(0, 0);
+            } catch (e) {
+                contentDiv.innerHTML = 'Error loading recipe.';
             }
         }
 
-        loadRandomRecipe();
+        async function init() {
+            try {
+                const res = await fetch('https://api.github.com/repos/cupprum/recipes/contents/recipes');
+                const files = await res.json();
+                const recipes = files.filter(f => f.type === 'file');
+
+                // Build Sidebar List
+                recipeList.innerHTML = '';
+                recipes.forEach(file => {
+                    const item = document.createElement('a');
+                    item.className = 'recipe-link';
+                    item.textContent = file.name.replace('.md', '').replace(/-/g, ' ');
+                    item.onclick = () => loadRecipe(file.download_url);
+                    recipeList.appendChild(item);
+                });
+
+                // Load initial random recipe
+                const random = recipes[Math.floor(Math.random() * recipes.length)];
+                loadRecipe(random.download_url);
+            } catch (e) {
+                recipeList.innerHTML = 'Failed to load list.';
+            }
+        }
+
+        init();
     </script>
 </body>
-
 </html>
