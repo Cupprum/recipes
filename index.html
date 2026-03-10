@@ -9,10 +9,7 @@
 <body>
     <div id="content"></div>
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
-    <script>
-        document.getElementById('content').innerHTML =
-            marked.parse('# Marked in the browser\n\nRendered by **marked**.');
-    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js"></script>
     <script>
         const owner = 'cupprum';
         const repo = 'recipes';
@@ -22,20 +19,39 @@
         fetch(url)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
+                    throw new Error('Failed to fetch list of files:', response.statusText);
                 }
                 return response.json();
             })
             .then(files => {
-                const fileList = document.getElementById('fileList');
-                files.forEach(file => {
-                    if (file.type === 'file') {
-                        console.log(file.name);
-                    }
-                });
+                return files
+                    .filter(file => file.type === 'file')
+                    .map(file => file.download_url);
+            })
+            .then(urls => {
+                let i = Math.floor(Math.random() * urls.length);
+                let url = urls[i];
+
+                const contentDiv = document.getElementById('content');
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch markdown file:', response.statusText);
+                        }
+                        return response.text();
+                    })
+                    .then(markdown => {
+                        const html = DOMPurify.sanitize(marked.parse(markdown));
+                        const recipeDiv = document.createElement('div');
+                        recipeDiv.innerHTML = html;
+                        contentDiv.appendChild(recipeDiv);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with fetching the markdown file:', error);
+                    });
             })
             .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
+                console.error('There was a problem with fetching a recipe: ', error);
             });
     </script>
 </body>
