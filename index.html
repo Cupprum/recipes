@@ -13,51 +13,49 @@
     <div id="content">Loading a recipe...</div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const contentDiv = document.getElementById('content');
-            
-            async function getRandomRecipeUrl() {
-                const response = await fetch('https://api.github.com/repos/cupprum/recipes/contents/recipes');
+        const contentDiv = document.getElementById('content');
+
+        async function getRandomRecipeUrl() {
+            const response = await fetch('https://api.github.com/repos/cupprum/recipes/contents/recipes');
+            if (!response.ok) {
+                throw new Error(`Failed to fetch file list: ${response.statusText}`);
+            }
+
+            const files = await response.json();
+            const fileUrls = files
+                .filter(file => file.type === 'file')
+                .map(file => file.download_url);
+
+            if (fileUrls.length === 0) {
+                throw new Error('No recipe files found.');
+            }
+
+            const randomIndex = Math.floor(Math.random() * fileUrls.length);
+            return fileUrls[randomIndex];
+        }
+
+        async function loadRandomRecipe() {
+            try {
+                const recipeUrl = await getRandomRecipeUrl();
+
+                const response = await fetch(recipeUrl);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch file list: ${response.statusText}`);
-                }
-                
-                const files = await response.json();
-                const fileUrls = files
-                    .filter(file => file.type === 'file')
-                    .map(file => file.download_url);
-
-                if (fileUrls.length === 0) {
-                    throw new Error('No recipe files found.');
+                    throw new Error(`Failed to fetch markdown: ${response.statusText}`);
                 }
 
-                const randomIndex = Math.floor(Math.random() * fileUrls.length);
-                return fileUrls[randomIndex];
+                const markdown = await response.text();
+                const html = DOMPurify.sanitize(marked.parse(markdown));
+
+                // Replace the "Loading..." text
+                contentDiv.innerHTML = html;
+
+            } catch (error) {
+                console.error('Problem fetching recipe:', error);
+                contentDiv.innerHTML = '<p style="color: red;">Failed to load recipe.</p>';
             }
+        }
 
-            async function loadRandomRecipe() {
-                try {
-                    const recipeUrl = await getRandomRecipeUrl();
-                    
-                    const response = await fetch(recipeUrl);
-                    if (!response.ok) {
-                        throw new Error(`Failed to fetch markdown: ${response.statusText}`);
-                    }
-                    
-                    const markdown = await response.text();
-                    const html = DOMPurify.sanitize(marked.parse(markdown));
-                    
-                    // Replace the "Loading..." text
-                    contentDiv.innerHTML = html;
-
-                } catch (error) {
-                    console.error('Problem fetching recipe:', error);
-                    contentDiv.innerHTML = '<p style="color: red;">Failed to load recipe.</p>';
-                }
-            }
-
-            loadRandomRecipe();
-        });
+        loadRandomRecipe();
     </script>
 </body>
 
