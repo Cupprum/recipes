@@ -1,10 +1,18 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sam's and Miska's recipes</title>
     <style>
+        html,
+        body {
+            min-height: 101vh;
+            /* Allow refreshing in PWA */
+            overscroll-behavior-y: auto;
+        }
+
         body {
             font-family: system-ui, sans-serif;
             line-height: 1.6;
@@ -28,18 +36,21 @@
         #sidebar {
             position: fixed;
             top: 0;
-            right: -260px; /* Hidden */
+            /* Hidden */
+            right: -260px;
             width: 220px;
             height: 100%;
             background: #f4f4f4;
             padding: 20px;
             transition: 0.3s;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             z-index: 90;
         }
 
-        #sidebar.open { right: 0; }
+        #sidebar.open {
+            right: 0;
+        }
 
         .recipe-link {
             display: block;
@@ -51,13 +62,19 @@
             color: #555;
         }
 
-        .recipe-link:hover { color: #000; }
-        
-        h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .recipe-link:hover {
+            color: #000;
+        }
+
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
 </head>
+
 <body>
     <button id="menu-btn" onclick="toggleMenu()">☰</button>
 
@@ -117,4 +134,5 @@
         init();
     </script>
 </body>
+
 </html>
