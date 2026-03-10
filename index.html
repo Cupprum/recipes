@@ -1,93 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipes</title>
-    <style>
-        /* 1. Basic Reset & Typography */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: sans-serif;
-            color: #222;
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        h1 { font-size: 2.5rem; text-align: center; margin: 40px 0; }
-        h2 { font-size: 1rem; color: #777; text-transform: uppercase; margin-bottom: 20px; }
-
-        /* 2. Main Layout Setup */
-        .recipe-container {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column; /* Stacks sections vertically on mobile */
-            gap: 40px;
-        }
-
-        /* 3. Ingredients List */
-        .ingredients-list { list-style: none; }
-        
-        .ingredients-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        /* 4. Steps List */
-        .steps-list {
-            padding-left: 20px; /* Gives room for the numbers */
-        }
-
-        .steps-list li {
-            margin-bottom: 20px;
-            padding-left: 10px;
-        }
-
-        /* 5. Desktop Layout */
-        @media (min-width: 768px) {
-            .recipe-container {
-                flex-direction: row; /* Places sections side-by-side */
-            }
-            .ingredients-section { width: 35%; border-right: 1px solid #eee; padding-right: 40px; }
-            .steps-section { width: 65%; padding-left: 20px; }
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <title>Marked in the browser</title>
 </head>
 <body>
-
-    <header>
-        <h1>Lemon Aglio e Olio</h1>
-    </header>
-
-    <main class="recipe-container">
-        
-        <section class="ingredients-section">
-            <h2>Ingredients</h2>
-            <ul class="ingredients-list">
-                <li><span>Pasta</span> <span>200g</span></li>
-                <li><span>Garlic</span> <span>4 Cloves</span></li>
-                <li><span>Olive Oil</span> <span>1/4 Cup</span></li>
-                <li><span>Chili Flakes</span> <span>1 tsp</span></li>
-                <li><span>Lemon Juice</span> <span>1/2 Lemon</span></li>
-                <li><span>Parmesan</span> <span>To taste</span></li>
-            </ul>
-        </section>
-
-        <section class="steps-section">
-            <h2>Steps</h2>
-            <ol class="steps-list">
-                <li>Boil a large pot of salted water. Cook pasta 1 minute less than package directions.</li>
-                <li>While pasta cooks, thinly slice garlic. In a cold pan, add oil and garlic, then turn heat to medium.</li>
-                <li>When garlic is golden, add chili flakes and a splash of pasta water to stop the cooking.</li>
-                <li>Toss the pasta in the oil with lemon juice and parsley until glossy. Serve with cheese.</li>
-            </ol>
-        </section>
-
-    </main>
-
+  <div id="content"></div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+  <script>
+    document.getElementById('content').innerHTML =
+      marked.parse('# Marked in the browser\n\nRendered by **marked**.');
+  </script>
 </body>
 </html>
