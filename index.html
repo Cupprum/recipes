@@ -115,12 +115,15 @@
                     const item = document.createElement('a');
                     item.className = 'recipe-link';
                     item.textContent = file.name.replace('.md', '').replace(/-/g, ' ');
+                    item.href = `#${file.name}`;
                     item.onclick = () => loadRecipe(file.download_url);
                     recipeList.appendChild(item);
                 });
 
-                const random = recipes[Math.floor(Math.random() * recipes.length)];
-                loadRecipe(random.download_url);
+                // Load recipe from URL hash or random if none
+                const hash = window.location.hash.slice(1);
+                const target = recipes.find(r => r.name === hash) || recipes[Math.floor(Math.random() * recipes.length)];
+                loadRecipe(target.download_url);
             } catch (e) {
                 recipeList.innerHTML = 'Failed to load list.';
             }
