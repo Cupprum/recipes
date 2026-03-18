@@ -42,9 +42,9 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: latest
 
       - name: Install playwright
         run: |
@@ -52,4 +52,4 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Run tests
-        run: node test.js
+        run: node tests/test.js
