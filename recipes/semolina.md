@@ -3,7 +3,7 @@
 ## Ingredients
 
 * Semolina (Krupica)
-* Milk
+* Milk (3 dl per person)
 * Cinnamon
 * Instant cocoa
 * Sugar
