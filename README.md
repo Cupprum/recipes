@@ -1,6 +1,6 @@
 # Recipes
 
-[![Recipes deployment](https://github.com/Cupprum/recipes/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/Cupprum/recipes/actions/workflows/deploy.yml)
+[![Recipes deployment](https://github.com/Cupprum/recipes/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/Cupprum/recipes/actions/workflows/deploy.yml)
 
 Simple website fetching recipes stored as markdown from this repo.
 
