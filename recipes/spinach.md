@@ -16,8 +16,8 @@
 1. Boil the potatoes until tender
 2. Mix the flour and oil in a pan
 3. Add the chopped onion into the pan
-4. Add the frozen spinach and minced garlic
-5. Cook for 10 minutes; after the spinach defrosts, add a small amount of water
+4. Add a bit of water, spinach and minced garlic in the pan
+5. Cook for 10 minutes
 6. Stir in the cooking cream
 7. Add salt and pepper to taste
 8. Serve with fried eggs and the cooked potatoes
