@@ -1,10 +1,14 @@
 name: Deploy Recipes Site
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - 'master'
+    paths:
+      - 'index.html'
+      - '.github/workflows/deploy.yml'
+      - 'tests/**'
 
 permissions:
   contents: read
