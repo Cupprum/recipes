@@ -21,5 +21,3 @@
 6. Sauté the asparagus in oil in a separate pan until soft
 7. Add minced garlic and a small amount of bouillon water to the asparagus
 8. Mix the cooked asparagus and its sauce into the rice
-
-Would you like me to convert any other recipes into this format?
