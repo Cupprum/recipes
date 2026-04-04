@@ -32,7 +32,7 @@ jobs:
           jq -n \
             --rawfile p "recipe-formatting-prompt.txt" \
             --arg r "$UNFORMATTED_RECIPE" \
-            '{contents: [{parts: [{text: ($p + "\n\nUnformatted recipe:\n" + r)}]}]}') > payload.json
+            '{contents: [{parts: [{text: ($p + "\n\nUnformatted recipe:\n" + r)}]}]}' > payload.json
           
           RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent" \
             -H "x-goog-api-key: $GEMINI_API_KEY" \
