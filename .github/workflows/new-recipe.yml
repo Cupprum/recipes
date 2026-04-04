@@ -19,15 +19,14 @@ jobs:
       - name: Extract Recipe Name
         id: vars
         run: |
-          # Extract "pizza" from "new-recipe pizza"
-          TITLE=${{ github.event.issue.title }}
-          RECIPE_NAME=$(echo "${TITLE#new-recipe }")
+          # Extract "pizza" from "new-recipe pizza #2"
+          read -r _ RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
           echo "filename=${RECIPE_NAME}.md" >> $GITHUB_OUTPUT
 
       - name: Call Gemini AI
         id: ai
         env:
-          GEMINI_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           UNFORMATTED_RECIPE: ${{ github.event.issue.body }}
         run: |
           PAYLOAD=$(jq -n \
