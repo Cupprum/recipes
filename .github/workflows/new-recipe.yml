@@ -1,0 +1,64 @@
+name: Add new recipe
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-recipe-pr:
+    if: startsWith(github.event.issue.title, 'new-recipe ')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Extract Recipe Name
+        id: vars
+        run: |
+          # Extract "pizza" from "new-recipe pizza"
+          TITLE=${{ github.event.issue.title }}
+          RECIPE_NAME=$(echo "${TITLE#new-recipe }")
+          echo "filename=${RECIPE_NAME}.md" >> $GITHUB_OUTPUT
+
+      - name: Call Gemini AI
+        id: ai
+        env:
+          GEMINI_KEY: ${{ secrets.GEMINI_API_KEY }}
+          UNFORMATTED_RECIPE: ${{ github.event.issue.body }}
+        run: |
+          PAYLOAD=$(jq -n \
+            --rawfile p "prompts/recipe_formatting_prompt.txt" \
+            --arg r "$UNFORMATTED_RECIPE" \
+            '{contents: [{parts: [{text: ($p + "\n\nUnformatted recipe:\n" + r)}]}]}')
+          
+          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent" \
+            -H "x-goog-api-key: $GEMINI_API_KEY" \
+            -H 'Content-Type: application/json' \
+            -d "$PAYLOAD")
+
+          echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text' > "${{ steps.vars.outputs.filename }}"
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="recipe/${{ steps.vars.outputs.filename }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git checkout -b "$BRANCH_NAME"
+          mv "${{ steps.vars.outputs.filename }}" "recipes/${{ steps.vars.outputs.filename }}"
+          
+          git add .
+          git commit -m "chore: add recipe ${{ steps.vars.outputs.filename }}"
+          git push origin "$BRANCH_NAME"
+          
+          gh pr create \
+            --title "New Recipe: ${{ steps.vars.outputs.filename }}" \
+            --body "Closes #${{ github.event.issue.number }}. Formatted using Gemini AI." \
+            --base main \
+            --head "$BRANCH_NAME"
