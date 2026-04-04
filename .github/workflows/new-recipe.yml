@@ -30,7 +30,7 @@ jobs:
           UNFORMATTED_RECIPE: ${{ github.event.issue.body }}
         run: |
           PAYLOAD=$(jq -n \
-            --rawfile p "prompts/recipe_formatting_prompt.txt" \
+            --rawfile p "recipe-formatting-prompt.txt" \
             --arg r "$UNFORMATTED_RECIPE" \
             '{contents: [{parts: [{text: ($p + "\n\nUnformatted recipe:\n" + r)}]}]}')
           
