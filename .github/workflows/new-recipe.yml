@@ -8,8 +8,9 @@ on:
 jobs:
   create-recipe-pr:
     if: >-
-      startsWith(github.event.issue.title, 'new-recipe ') &&
-      github.event.pull_request.user.login == 'Cupprum'
+      startsWith(github.event.issue.title, 'new-recipe ') 
+      # &&
+      # github.event.issue.actor == 'Cupprum'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -18,6 +19,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+
+      -name: debug
+        run: |
+          echo "creator: ${{ github.event.issue.actor }}"
 
       - name: Extract Recipe Name
         id: vars
