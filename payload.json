@@ -1,0 +1,11 @@
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "Prompt for recipe generation\n\nI will send you a file which is a text file and you will look at this file and produce the output in the following structure.\nThere is gonna be a header with a title of recipe there is gonna be a set of ingredients and steps.\nYou have to output just this specific markdown and nothing else.\nThe recipes may be in different languages but I want them all to be outputted in English.\nUse metric system only, tea spoons and pinches are allowed from time to time as well, but i dont like US metrics.\n\nExample output:\n\n‘’’\n# Jackfruit curry\n\n\n## Ingredients\n* Canned jackfruit - 2 250g cans = 500g\n* Broccoli\n* Green curry paste - 1.5 tea spoons\n* Curry powder\n* Onion - 1 medium\n* Chopped tomatoes - 1 can\n* Coconut milk - 1 can\n* Salt\n* Oil\n* Rice\n\n\n## Steps\n1. Prepare the rice\n2. Boil broccoli for 3 minutes\n3. Cool the broccoli in cold water for a minute\n4. Try to remove water from the broccoli\n5. In a large pan stir fry chopped onions with jackfruit and green curry paste\n6. Add chopped tomatoes and coconut milk into the pan\n7. Boil for 15 to 20 minutes\n‘’’\n\nUnformatted recipe:\npasta\n\ningredients:\n* pasta\n* salt\n* water\n\nsteps:\n* boil water\n* add pasta into the water"
+        }
+      ]
+    }
+  ]
+}
