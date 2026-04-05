@@ -2,11 +2,14 @@ name: Add new recipe
 
 on:
   issues:
-    types: [opened]
+    types: 
+      - opened
 
 jobs:
   create-recipe-pr:
-    if: startsWith(github.event.issue.title, 'new-recipe ')
+    if: |
+      startsWith(github.event.issue.title, 'new-recipe ') &&
+      github.event.pull_request.user.login == 'Cupprum'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -52,7 +55,7 @@ jobs:
           git checkout -b "$BRANCH_NAME"
           mv "${{ steps.vars.outputs.filename }}" "recipes/${{ steps.vars.outputs.filename }}"
           
-          git add .
+          git add "recipes/${{ steps.vars.outputs.filename }}"
           git commit -m "chore: add recipe ${{ steps.vars.outputs.filename }}"
           git push origin "$BRANCH_NAME"
           
