@@ -32,15 +32,15 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           UNFORMATTED_RECIPE: ${{ github.event.issue.body }}
         run: |
-          jq -n \
+          PAYLOAD=$(jq -n \
             --rawfile p "recipe-formatting-prompt.txt" \
             --arg r "$UNFORMATTED_RECIPE" \
-            '{contents: [{parts: [{text: ($p + "\n\nUnformatted recipe:\n" + $r)}]}]}' > payload.json
+            '{contents: [{parts: [{text: ($p + "\n\nUnformatted recipe:\n" + $r)}]}]}')
           
-          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent" \
+          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent" \
             -H "x-goog-api-key: $GEMINI_API_KEY" \
             -H 'Content-Type: application/json' \
-            -d @payload.json)
+            -d "$PAYLOAD")
 
           echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text' > "${{ steps.vars.outputs.filename }}"
 
