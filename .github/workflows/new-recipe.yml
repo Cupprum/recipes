@@ -7,10 +7,7 @@ on:
 
 jobs:
   create-recipe-pr:
-    if: >-
-      startsWith(github.event.issue.title, 'new-recipe ') 
-      # &&
-      # github.event.issue.actor == 'Cupprum'
+    if: startsWith(github.event.issue.title, 'new-recipe ') 
     runs-on: ubuntu-latest
     permissions:
       contents: write
