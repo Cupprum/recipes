@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-recipe-pr:
-    if: |
+    if: >-
       startsWith(github.event.issue.title, 'new-recipe ') &&
       github.event.pull_request.user.login == 'Cupprum'
     runs-on: ubuntu-latest
