@@ -1,16 +1,24 @@
-Prompt for recipe generation
-
-I will send you a file which is a text file and you will look at this file and produce the output in the following structure.
-There is gonna be a header with a title of recipe there is gonna be a set of ingredients and steps.
-You have to output just this specific markdown and nothing else.
-The recipes may be in different languages but I want them all to be outputted in English.
-Use metric system only, tea spoons and pinches are allowed from time to time as well, but i dont like US metrics.
+Formatting recipes. You will receive a example recipe,
+which is formatted correctly, and another recipe,
+which has wrong formatting. You will respond only with
+the another recipe, but you will format it correctly using
+markdown. This is very important, your only response is
+the second recipe, but with correct formatting, nothing
+else. The proper formatting contains three parts.
+Title of the recipe, which is a markdown H1.
+Set of ingredients which is a markdown H2 with a bullet
+list of ingredients. And steps, which is markdown H2
+with numbered list with the steps to follow. You have
+to output just this specific markdown and nothing else.
+The recipes may be in different languages but I want them
+all to be outputted in English. Use metric system only,
+tea spoons and pinches are allowed from time to time as
+well, but i dont like US metrics.
 
 Example output:
 
 ‘’’
 # Jackfruit curry
-
 
 ## Ingredients
 * Canned jackfruit - 2 250g cans = 500g
@@ -23,7 +31,6 @@ Example output:
 * Salt
 * Oil
 * Rice
-
 
 ## Steps
 1. Prepare the rice
