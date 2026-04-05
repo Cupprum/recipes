@@ -19,7 +19,7 @@ jobs:
 
       - name: debug
         run: |
-          echo "creator: ${{ github.event.issue.actor }}"
+          echo "creator: ${{ github.event.issue.user.login }}"
 
       - name: Extract Recipe Name
         id: vars
