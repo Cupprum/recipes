@@ -8,7 +8,6 @@
 * Yeast - 7g
 * Strawberry jam
 * Sunflower oil
-* Water - 500 ml
 
 ## Steps
 
@@ -23,5 +22,5 @@
 9. Let the balls rise for 15 minutes
 10. Warm up a casserole pot and add a bit of oil
 11. Fry the buns in the covered pot for 1 minute
-12. Add half a liter of water and cover the pot again
+12. Add a cup of water and cover the pot again
 13. Steam for 5 minutes
