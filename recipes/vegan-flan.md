@@ -1,4 +1,4 @@
-# Vegan Flan Pâtissier (Land&Monkeys Style)
+# Vegan Flan Pâtissier
 
 ## Ingredients
 
