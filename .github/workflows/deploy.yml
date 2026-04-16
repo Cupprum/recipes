@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
+      - 'main'
     paths:
       - 'index.html'
       - '.github/workflows/deploy.yml'
