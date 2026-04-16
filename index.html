@@ -112,11 +112,11 @@
                 // https://raw.githubusercontent.com/Cupprum/recipes/main/recipes/chocolate-cookies.md
                 // https://raw.githubusercontent.com/Cupprum/recipes/main/photos/chocolate-cookies.jpeg 
                 const photoUrl = mdUrl.replace(/\/recipes\/([^/]+)\.md$/, "/photos/$1.jpeg");
-                const photoRes = await fetch(photoUrl);
-
-                if (photoRes.ok) {
+                const photoCheck = await fetch(photoUrl, { method: 'HEAD' });
+                if (photoCheck.ok) {
                     const img = document.createElement('img');
-                    img.src = URL.createObjectURL(await photoRes.blob());
+                    img.src = photoUrl;
+                    img.loading = "lazy";
                     contentDiv.append(img); 
                 }
 
