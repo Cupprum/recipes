@@ -12,8 +12,8 @@
 * Water
 
 ## Steps
-1. Brown the pork or tempeh on all sides in a pan and season with rosemary, bay leaves, and black pepper.
-2. Transfer the browned pork or tempeh into a casserole dish.
+1. Brown the pork on all sides in a pan and season with rosemary, bay leaves, and black pepper.
+2. Transfer the browned pork into a casserole dish.
 3. Cook in the oven at 180°C for 50 minutes.
 4. Clean and peel the carrots, parsley root, and celery root.
 5. Cut the cleaned vegetables into small pieces.
