@@ -1,4 +1,4 @@
-# Eight Vegan Crepes
+# Vegan Crepes (for two people)
 
 ## Ingredients
 
