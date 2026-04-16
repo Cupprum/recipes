@@ -71,6 +71,15 @@
             border-bottom: 2px solid var(--border);
             padding-bottom: 10px;
         }
+
+        img {
+            max-width: 100%; 
+            height: auto;    
+            display: block;  
+            margin: 20px auto; 
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js" defer></script>
@@ -91,12 +100,26 @@
         const recipeList = document.getElementById('recipe-list');
         const contentDiv = document.getElementById('content');
 
-        async function loadRecipe(url) {
+        async function loadRecipe(mdUrl) {
             try {
                 contentDiv.innerHTML = 'Loading recipe...';
-                const res = await fetch(url);
-                const md = await res.text();
+
+                const mdRes = await fetch(mdUrl);
+                const md = await mdRes.text();
                 contentDiv.innerHTML = DOMPurify.sanitize(marked.parse(md));
+
+                // Generate photos url from recipe url
+                // https://raw.githubusercontent.com/Cupprum/recipes/main/recipes/chocolate-cookies.md
+                // https://raw.githubusercontent.com/Cupprum/recipes/main/photos/chocolate-cookies.jpeg 
+                const photoUrl = mdUrl.replace(/\/recipes\/([^/]+)\.md$/, "/photos/$1.jpeg");
+                const photoRes = await fetch(photoUrl);
+
+                if (photoRes.ok) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(await photoRes.blob());
+                    contentDiv.append(img); 
+                }
+
                 sidebar.classList.remove('open'); // Auto-close menu
                 window.scrollTo(0, 0);
             } catch (e) {
@@ -132,5 +155,4 @@
         init();
     </script>
 </body>
-
 </html>
