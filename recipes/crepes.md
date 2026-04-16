@@ -1,4 +1,4 @@
-# Crepes for One
+# Crepes (for one person)
 
 ## Ingredients
 
