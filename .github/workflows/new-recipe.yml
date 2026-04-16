@@ -35,7 +35,7 @@ jobs:
           PAYLOAD=$(jq -n \
             --rawfile p "recipe-formatting-prompt.txt" \
             --arg r "$UNFORMATTED_RECIPE" \
-            '{contents: [{parts: [{text: ($p + "\n\nUnformatted recipe:\n" + $r)}]}]}')
+            '{contents: [{parts: [{text: ($p + "\n" + $r)}]}]}')
           
           RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent" \
             -H "x-goog-api-key: $GEMINI_API_KEY" \
