@@ -1,4 +1,4 @@
-# Peasant Fondue
+# Sedlacke Fondue
 
 ## Ingredients
 * Whole round bread - 1 loaf
