@@ -5,7 +5,7 @@
 * Tomato sauce with basil
 * Bacon
 * Cheese - 3 slices (Cheddar or processed cheese slices)
-* Rucola (Arugula)
+* Rucola
 * Oil
 
 ## Steps
