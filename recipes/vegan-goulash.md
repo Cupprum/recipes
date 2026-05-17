@@ -8,7 +8,7 @@
 * Black pepper
 * Cumin seasoning
 * Flour - 1 tablespoon
-* Oyster mushrooms
+* Oyster mushrooms (Østers hatte)
 * Garlic
 * Water
 * Bread (for serving)
