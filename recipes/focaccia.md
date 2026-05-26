@@ -16,6 +16,6 @@
 5. Sprinkle the rosemary and coarse salt over the dough
 6. Cut the olives and dried tomatoes into small pieces
 7. Press the olive and tomato pieces into the dough
-8. Bake at 220°C using the grill setting for 20 minutes
+8. Bake at 200°C using the grill setting for 30 minutes
 9. Let the focaccia rest for 10 minutes before cutting
 10. Transfer to a wire rack so the bottom does not become soggy
