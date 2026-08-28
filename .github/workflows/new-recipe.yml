@@ -42,7 +42,7 @@ jobs:
             -H 'Content-Type: application/json' \
             -d "$PAYLOAD")
 
-          echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text' > "${{ steps.vars.outputs.filename }}"
+          echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text' | tee "${{ steps.vars.outputs.filename }}"
 
       - name: Create Pull Request
         env:
