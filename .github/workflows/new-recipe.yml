@@ -57,7 +57,7 @@ jobs:
           
           git add "recipes/${{ steps.vars.outputs.filename }}"
           git commit -m "chore: add recipe ${{ steps.vars.outputs.filename }}"
-          git push origin "$BRANCH_NAME"
+          git push origin "$BRANCH_NAME" --force
           
           gh pr create \
             --title "New Recipe: ${{ steps.vars.outputs.filename }}" \
