@@ -22,9 +22,9 @@
 4. Add the coconut milk and peanut butter into the pan and mix well
 5. Add the vegetables and cook for around 15 minutes
 6. Add soy sauce until it is salty enough
-7. Prepare rice on the side using 180 ml of rice and 360 ml of water
+7. Prepare rice on the side using 0.75 cups of rice and 1.5 cups of water
 8. Mix the cornstarch, flour, and garlic powder in a bowl
 9. Dry the tofu and cut into pieces
 10. Place the tofu into the bowl with the cornstarch mixture and coat thoroughly
-11. Transfer the tofu to a medium-hot frying pan and leave undisturbed for 5 minutes
+11. Transfer the tofu to a medium-hot frying pan and leave unturned for 5 minutes
 12. Turn the tofu and fry until it is golden brown
