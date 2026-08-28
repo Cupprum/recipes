@@ -63,4 +63,4 @@ jobs:
             --title "New Recipe: ${{ steps.vars.outputs.filename }}" \
             --body "Closes #${{ github.event.issue.number }}. Formatted using Gemini AI." \
             --base main \
-            --head "$BRANCH_NAME"
+            --head "$BRANCH_NAME" || true
