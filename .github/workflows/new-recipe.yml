@@ -42,6 +42,11 @@ jobs:
             -H 'Content-Type: application/json' \
             -d "$PAYLOAD")
 
+					if echo "$RESPONSE" | jq -e '.error' >/dev/null 2>&1; then
+						echo "Gemini API Error: $(echo "$RESPONSE" | jq -r '.error.message')" >&2
+						exit 1
+					fi
+
           echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text' | tee "${{ steps.vars.outputs.filename }}"
 
       - name: Create Pull Request
