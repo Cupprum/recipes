@@ -3,21 +3,24 @@
 ## Ingredients
 
 * Udon noodles
-* Protein (tofu, meat, or seafood)
+* Protein (mock duck, tofu, meat, or seafood)
+* Garlic - 1 per person
 * Vegetables for stir-fry
-* Sauce ingredients
+* Hoisin sauce
+* Soy sauce (light for taste, dark for color)
 
 ## Steps
 
-1. Prepare the protein
-2. Stir-fry the vegetables
-3. Create the sauce
-4. Pour the sauce onto the vegetables
-5. Add the protein to the vegetable and sauce mixture
-6. Boil water in a pot
-7. Add the udon noodles to the boiling water
-8. Cook the noodles according to the instructions on the package
-9. Drain the water from the noodles
-10. Rinse the noodles in cold water
-11. Drain the water again
-12. Add the noodles to the sauce and cook together
+1. Cut all the vegetables, and protein into cubes or slices
+2. Boil water in a pot
+3. Fry the protein on a pan with a bit of oil
+4. Add soy sauce and one spoon of Hoisin sauce
+5. Put the noodles in hot water for 3 minutes
+6. Pre heat the wok
+7. Cover the bottom of the wok in oil
+8. Add garlic and a bit of soy sauce
+9. Stir-fry the vegetables
+10. Add one spoon of Hoising sauce
+11. Step by step add soy sauce
+12. Add the protein to the wok
+13. Add the noodles to the wok
