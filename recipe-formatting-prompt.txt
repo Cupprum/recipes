@@ -6,7 +6,7 @@ and output it in a strict Markdown structure.
 ### CONSTRAINTS:
 * **No Conversational Filler:** Output ONLY the final formatted Markdown recipe. Do not say "Here is your recipe" or include any other text.
 * **Language:** Translate all ingredients and steps into English.
-* **Measurements:** Use the metric system ONLY (grams, milliliters, Celsius). Convert any US Imperial units (cups, ounces, Fahrenheit) to metric. Teaspoons, tablespoons, and pinches are allowed.
+* **Measurements:** Use the metric system ONLY (grams, milliliters, Celsius). Convert any US Imperial units (ounces, Fahrenheit) to metric. Teaspoons, tablespoons, cups, and pinches are allowed.
 
 ### REQUIRED FORMAT:
 # [Recipe Title]
