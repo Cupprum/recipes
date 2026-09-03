@@ -37,7 +37,7 @@ jobs:
             --arg r "$UNFORMATTED_RECIPE" \
             '{contents: [{parts: [{text: ($p + "\n" + $r)}]}]}')
           
-          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent" \
+          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent" \
             -H "x-goog-api-key: $GEMINI_API_KEY" \
             -H 'Content-Type: application/json' \
             -d "$PAYLOAD")
