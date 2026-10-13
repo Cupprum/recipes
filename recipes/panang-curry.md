@@ -9,7 +9,7 @@
 * Vegetables - bell pepper, frozen green beans, bamboo shoots
 * Soy sauce - dark and light
 * Tofu
-* Cornstarch - 1 teaspoon
+* Cornstarch - 1 tablespoon
 * Flour - 1 teaspoon
 * Garlic powder - 1 teaspoon
 * Salt
