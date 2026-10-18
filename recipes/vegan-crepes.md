@@ -11,3 +11,5 @@
 1. Ad the soy milk into the flour step by step, until all flour is incorporated into the dough
 2. Add water until you are satisfied with the consistency
 3. Ensure the dough is slightly thicker than water
+4. Set induction to 7.5 and after first few creps 7
+5. Rotate the pan occasionally by 180 degrees so crepes are evenly crisp
