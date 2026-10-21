@@ -11,7 +11,7 @@
 * Paprika powder
 * Black pepper
 * Salt
-* Chickpea water
+* Chickpea water - Note: try to skip chickpea water next time
 * Crème fraîche
 * Garlic - 1 clove per person
 * Olive oil
@@ -21,7 +21,7 @@
 2. Mix half a cup of flour with half a cup of cornstarch.
 3. Transfer the mixture to a bowl.
 4. Add a pinch of garlic powder, paprika powder, black pepper, and salt.
-5. Gradually add chickpea water and normal water,step by step (combined up to 3/4 of a cup), until reaching a crêpe-like consistency.
+5. Gradually add chickpea water and normal water,step by step (combined up to 3/4 of a cup), until reaching a crêpe-like consistency. Rather make it more dense than watery.
 6. Heat up water in a pot for the potatoes.
 7. Heat a pan for frying with a generous amount of sunflower oil.
 8. Boil the potatoes for around 15 minutes.
