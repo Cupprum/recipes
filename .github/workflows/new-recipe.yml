@@ -26,28 +26,28 @@ jobs:
           read -r _ RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
           echo "filename=${RECIPE_NAME}.md" >> $GITHUB_OUTPUT
 
-      - name: Call Gemini AI
+      - name: Format Recipe
         id: ai
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           UNFORMATTED_RECIPE: ${{ github.event.issue.body }}
         run: |
           PAYLOAD=$(jq -n \
             --rawfile p "recipe-formatting-prompt.txt" \
             --arg r "$UNFORMATTED_RECIPE" \
-            '{contents: [{parts: [{text: ($p + "\n" + $r)}]}]}')
+            '{model: "deepseek-chat", messages: [{role: "system", content: $p}, {role: "user", content: $r}]}')
           
-          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent" \
-            -H "x-goog-api-key: $GEMINI_API_KEY" \
+          RESPONSE=$(curl -s -X POST "https://api.deepseek.com/chat/completions" \
+            -H "Authorization: Bearer $DEEPSEEK_API_KEY" \
             -H 'Content-Type: application/json' \
             -d "$PAYLOAD")
 
           if echo "$RESPONSE" | jq -e '.error' >/dev/null 2>&1; then
-            echo "Gemini API Error: $(echo "$RESPONSE" | jq -r '.error.message')" >&2
+            echo "DeepSeek API Error: $(echo "$RESPONSE" | jq -r '.error.message')" >&2
             exit 1
           fi
 
-          echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text' | tee "${{ steps.vars.outputs.filename }}"
+          echo "$RESPONSE" | jq -r '.choices[0].message.content' | tee "${{ steps.vars.outputs.filename }}"
 
       - name: Create Pull Request
         env:
@@ -66,6 +66,6 @@ jobs:
           
           gh pr create \
             --title "New Recipe: ${{ steps.vars.outputs.filename }}" \
-            --body "Closes #${{ github.event.issue.number }}. Formatted using Gemini AI." \
+            --body "Closes #${{ github.event.issue.number }}." \
             --base main \
             --head "$BRANCH_NAME" || true
