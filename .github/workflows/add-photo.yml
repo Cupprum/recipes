@@ -1,0 +1,57 @@
+name: Add photo
+
+on:
+  issues:
+    types: 
+      - opened
+
+jobs:
+  add-photo-pr:
+    if: |
+      startsWith(github.event.issue.title, 'add-photo ') &&
+      github.event.issue.user.login == 'Cupprum'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Extract Recipe Name
+        id: vars
+        run: |
+          # Extract "pizza" from "add-photo pizza #2"
+          read -r _ RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
+          echo "filename=${RECIPE_NAME}.jpeg" >> $GITHUB_OUTPUT
+
+      - name: Get photo url
+        id: photo
+        env:
+          BODY: ${{ github.event.issue.body }}
+        run: |
+          URL=$(printf '%s' "$BODY" | grep -oE 'https://github\.com/user-attachments/assets/[0-9a-f-]+' | head -1)
+          [ -z "$URL" ] && { echo "ERROR: no image link in issue body" >&2; exit 1; }
+          echo "url=${URL}" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="photo/${{ steps.vars.outputs.filename }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH_NAME"
+          curl -sL --fail "${{ steps.photo.outputs.url }}" -o "photos/${{ steps.vars.outputs.filename }}"
+
+          git add "photos/${{ steps.vars.outputs.filename }}"
+          git commit -m "chore: add photo ${{ steps.vars.outputs.filename }}"
+          git push origin "$BRANCH_NAME" --force
+
+          gh pr create \
+            --title "Add photo: ${{ steps.vars.outputs.filename }}" \
+            --body "Closes #${{ github.event.issue.number }}." \
+            --base main \
+            --head "$BRANCH_NAME" || true
