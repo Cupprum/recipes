@@ -47,6 +47,7 @@ jobs:
             exit 1
           fi
 
+          echo "Formatted recipe:"
           echo "$RESPONSE" | jq -r '.choices[0].message.content' | tee "${{ steps.vars.outputs.filename }}"
 
       - name: Create Pull Request
