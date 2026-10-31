@@ -21,8 +21,8 @@ node test.js
 
 ## Adding new recipes
 
-To add a recipe, open a new issue titled `new-recipe <recipe-name>`, for example `new-recipe pizza` for `recipes/pizza.md`, and put the recipe in the issue description. A workflow formats it and opens a pull request — review and merge it.
+Open an issue titled with the recipe name in lowercase kebab-case, for example `pizza-margherita`. Put the recipe in the issue description, then add the `recipe` label. The label starts the workflow. It formats the recipe, opens a pull request for `recipes/pizza-margherita.md`, and the issue closes when that PR is merged.
 
 ## Adding photos
 
-To add a picture to a recipe, open a new issue titled `add-photo <recipe-name>`, for example `add-photo pizza` for `recipes/pizza.md`. Attach the photo to the issue.
+To add a picture to an existing recipe, open an issue titled with that recipe's name, for example `pizza-margherita`. Attach the photo, then add the `photo` label. The name must be lowercase kebab-case with no file extension. The photo is committed as `photos/pizza-margherita.jpeg`.
