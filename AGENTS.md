@@ -1,28 +1,27 @@
 # AGENTS.md
 
 ## What this is
-- Static GitHub Pages site: `index.html` is the entire app (inline CSS/JS, CDN `marked` + DOMPurify). No build, bundler, package, lint, typecheck, or formatter — don't add or expect them.
-- Recipes/photos are fetched at runtime from `main`: the list via the GitHub Contents API, each recipe via its raw `download_url`. Merging content needs no redeploy.
-- `deploy.yml` redeploys only when `index.html`, `deploy.yml`, or `tests/**` change.
+- Static GitHub Pages site: `index.html` holds all markup/CSS/JS (CDN `marked` + DOMPurify). No build, bundler, lint, typecheck, or formatter — edit the file and deploy.
+- Recipes/photos come from `main` at runtime: the list via the GitHub Contents API, each recipe via its raw `download_url`. Content merges need no redeploy.
+- `deploy.yml` deploys on push to `main` changing `index.html`, `deploy.yml`, or `tests/**`, and on manual dispatch. It uploads the whole repo.
 
 ## Verification
-- From repo root (what CI runs): `node tests/test.js`
-- First-time setup: `cd tests && npm install && npx playwright install chromium`
-- The test is E2E against the live site `https://cupprum.github.io/recipes/#rice.md`, run after deploy; it cannot validate local files. It requires network and deployed `main`.
-- It asserts `#content` contains "Rice for Two" and there are ≥2 `.recipe-link`s. Renaming/deleting `recipes/rice.md` or changing its title breaks CI.
+- CI runs `node tests/test.js` from the repo root after deploy; local setup is `cd tests && npm install && npx playwright install chromium` (CI instead does a root `npm install playwright`).
+- It is E2E against the live site (`https://cupprum.github.io/recipes/#mafe.md`), so it needs network and deployed `main` and cannot validate local files.
+- It asserts `#content` contains "Vegan Mafé", there are ≥2 `.recipe-link`s, and exactly one `#content img` ends in `/photos/mafe.jpeg`. Renaming/deleting `recipes/mafe.md` or `photos/mafe.jpeg`, or changing that title, breaks CI.
 
 ## Content contracts
-- Recipe file: `recipes/<kebab-case>.md` with exactly `# Title`, `## Ingredients` (bullets), `## Steps` (numbered). This is what the UI and automation expect.
-- Filename is user-visible: sidebar label is filename minus `.md` with dashes→spaces; the URL hash is the full filename (`#rice.md`). Renaming changes links.
-- Photo: `photos/<recipe-basename>.jpeg`. `index.html` rewrites the recipe URL to `photos/$1.jpeg` and probes only that extension; `.jpg`/`.png` never display.
+- `recipes/<name>.md`: exactly `# Title`, `## Ingredients` (bullets), `## Steps` (numbered). `recipe-formatting-prompt.txt` is the source of truth for units/translation — update it when conventions change.
+- The filename is user-visible: sidebar label is filename minus `.md`, dashes as spaces (capitalized by CSS), and the URL hash is `#<name>.md`. Renaming changes links.
+- Photo: `photos/<name>.jpeg` only. `index.html` rewrites `/recipes/<name>.md` to `/photos/<name>.jpeg` and HEAD-probes just that path; `.jpg`/`.png` never display.
 
 ## Automation
-- `label-dispatch.yml`: triggers on the `recipe` and `photo` labels on issues opened by `Cupprum` (title is the bare recipe slug, e.g. `pizza-margherita`), then calls the two reusable workflows below via `workflow_call`. Adding the label is the only trigger — opening an issue runs nothing, and removing/re-adding the label is the retry path.
-- `new-recipe.yml`: DeepSeek (`recipe-formatting-prompt.txt`, model `deepseek-chat`) writes `recipes/<name>.md` and opens a PR. `recipe-formatting-prompt.txt` is the source of truth for format/units; update it when changing recipe conventions.
-- `add-photo.yml`: issue body must contain a `https://github.com/user-attachments/assets/...` link, `<name>` must be lowercase kebab-case with no extension, and `recipes/<name>.md` must already exist → `photos/<name>.jpeg` + PR. Failed validation leaves a red run and creates no PR.
-- The two flows do not guard themselves (no `if:`); a new caller must repeat the label/author checks. Requires the `DEEPSEEK_API_KEY` repo secret.
+- `label-dispatch.yml` runs when the `recipe` or `photo` label is added to an issue by `Cupprum`, calling the reusable workflows below. Only the label triggers a run — not opening the issue — and removing/re-adding it is the retry path. The issue title's first word is the recipe name, so `pizza #2` works.
+- `new-recipe.yml`: DeepSeek (`deepseek-chat`, `recipe-formatting-prompt.txt`) turns the issue body into `recipes/<name>.md` and opens a PR. Needs the `DEEPSEEK_API_KEY` secret. It does not validate the name, so a title like `Pizza Margherita` yields `Pizza.md`.
+- `add-photo.yml`: needs a `https://github.com/user-attachments/assets/...` link in the body, a lowercase kebab-case `<name>` with no extension, and an existing `recipes/<name>.md`; opens a PR adding `photos/<name>.jpeg`. Bad input fails the run and creates no PR.
+- Neither reusable flow guards itself (no `if:`); a new caller must repeat the label/author checks.
 
 ## Gotchas
-- `.gitignore` ignores `package.json`/`package-lock.json` at every depth; test manifests already exist in `tests/`. Use `git add -f` if dependency manifests must be committed.
-- Markdown is rendered with `marked` and sanitized with DOMPurify; keep content in Markdown, not raw HTML.
-- Unauthenticated GitHub API calls power the list, so rate limits break the site without any code change.
+- `.gitignore` ignores `package.json`/`package-lock.json` at every depth; dependencies are installed ad hoc. Use `git add -f` only if a manifest must be committed.
+- Content is Markdown rendered by `marked` and sanitized by DOMPurify — no raw HTML.
+- The recipe list uses unauthenticated GitHub API calls, so rate limits can break the site with no code change.
