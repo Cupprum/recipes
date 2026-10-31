@@ -13,6 +13,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      issues: read
     uses: ./.github/workflows/new-recipe.yml
     secrets:
       DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
@@ -24,4 +25,5 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      issues: read
     uses: ./.github/workflows/add-photo.yml
