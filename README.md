@@ -1,10 +1,12 @@
-# Recipes
+# [Recipes](https://cupprum.github.io/recipes/)
 
 [![Recipes deployment](https://github.com/Cupprum/recipes/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/Cupprum/recipes/actions/workflows/deploy.yml)
 
 Simple website fetching recipes stored as markdown from this repo.
 
-Uses only HTML, CSS, Vanila Javascript and is deployed to [Github pages](https://cupprum.github.io/recipes/).
+Uses only [HTML](https://html.spec.whatwg.org/multipage/), [CSS](https://www.w3.org/Style/CSS/Overview.en.html,), [Vanila Javascript](https://tc39.es/ecma262/) and is deployed to [Github pages](https://docs.github.com/en/pages).
+
+[Link to recipes website](https://cupprum.github.io/recipes/)
 
 ## Testing
 
@@ -19,14 +21,8 @@ node test.js
 
 ## Adding new recipes
 
-Create a issue on github with a description of a recipe, a workflow will automatically pick it up and try to format it correctly.
-The workflow will try to create a PR which needs to be reviewed and approved. The recipes should be stored in the `recipes` folder.
+To add a recipe, open a new issue titled `new-recipe <recipe-name>`, for example `new-recipe pizza` for `recipes/pizza.md`, and put the recipe in the issue description. A workflow formats it and opens a pull request — review and merge it.
 
-## Adding pictures
+## Adding photos
 
-The photos should be stored in `photos` folder, and should have the same name as a recipe.
-
-Before adding a picture, make sure to remove all the PII, using the `exiftool`, specificaly by using the following command:
-```
-exiftool -overwrite_original -all= ./photos/*.jpeg
-```
+To add a picture to a recipe, open a new issue titled `add-photo <recipe-name>`, for example `add-photo pizza` for `recipes/pizza.md`. Attach the photo to the issue.
