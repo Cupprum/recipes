@@ -18,7 +18,7 @@
 
 ## Automation
 - `new-recipe.yml`: issue titled `new-recipe <name>` by `Cupprum` → DeepSeek (`recipe-formatting-prompt.txt`, model `deepseek-chat`) writes `recipes/<name>.md` and opens a PR. `recipe-formatting-prompt.txt` is the source of truth for format/units; update it when changing recipe conventions.
-- `add-photo.yml`: issue titled `add-photo <name>` by `Cupprum`; body must contain a `https://github.com/user-attachments/assets/...` link → `photos/<name>.jpeg` + PR.
+- `add-photo.yml`: issue titled `add-photo <name>` by `Cupprum`; body must contain a `https://github.com/user-attachments/assets/...` link, `<name>` must be lowercase kebab-case with no extension, and `recipes/<name>.md` must already exist → `photos/<name>.jpeg` + PR. Failed validation leaves a red run and creates no PR.
 - Requires the `DEEPSEEK_API_KEY` repo secret.
 
 ## Gotchas

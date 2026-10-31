@@ -24,7 +24,21 @@ jobs:
         run: |
           # Extract "pizza" from "add-photo pizza #2"
           read -r _ RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
-          echo "filename=${RECIPE_NAME}.jpeg" >> $GITHUB_OUTPUT
+          echo "recipe=${RECIPE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "filename=${RECIPE_NAME}.jpeg" >> "$GITHUB_OUTPUT"
+
+      - name: Validate recipe and photo name
+        env:
+          RECIPE_NAME: ${{ steps.vars.outputs.recipe }}
+        run: |
+          if ! echo "$RECIPE_NAME" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$'; then
+            echo "ERROR: '$RECIPE_NAME' is not a valid recipe name (lowercase kebab-case, no file extension)" >&2
+            exit 1
+          fi
+          if [ ! -f "recipes/$RECIPE_NAME.md" ]; then
+            echo "ERROR: recipes/$RECIPE_NAME.md does not exist. Create the recipe first (new-recipe $RECIPE_NAME)." >&2
+            exit 1
+          fi
 
       - name: Get photo url
         id: photo
