@@ -17,9 +17,10 @@
 - Photo: `photos/<recipe-basename>.jpeg`. `index.html` rewrites the recipe URL to `photos/$1.jpeg` and probes only that extension; `.jpg`/`.png` never display.
 
 ## Automation
-- `new-recipe.yml`: issue titled `new-recipe <name>` by `Cupprum` → DeepSeek (`recipe-formatting-prompt.txt`, model `deepseek-chat`) writes `recipes/<name>.md` and opens a PR. `recipe-formatting-prompt.txt` is the source of truth for format/units; update it when changing recipe conventions.
-- `add-photo.yml`: issue titled `add-photo <name>` by `Cupprum`; body must contain a `https://github.com/user-attachments/assets/...` link, `<name>` must be lowercase kebab-case with no extension, and `recipes/<name>.md` must already exist → `photos/<name>.jpeg` + PR. Failed validation leaves a red run and creates no PR.
-- Requires the `DEEPSEEK_API_KEY` repo secret.
+- `label-dispatch.yml`: triggers on the `recipe` and `photo` labels on issues opened by `Cupprum` (title is the bare recipe slug, e.g. `pizza-margherita`), then calls the two reusable workflows below via `workflow_call`. Adding the label is the only trigger — opening an issue runs nothing, and removing/re-adding the label is the retry path.
+- `new-recipe.yml`: DeepSeek (`recipe-formatting-prompt.txt`, model `deepseek-chat`) writes `recipes/<name>.md` and opens a PR. `recipe-formatting-prompt.txt` is the source of truth for format/units; update it when changing recipe conventions.
+- `add-photo.yml`: issue body must contain a `https://github.com/user-attachments/assets/...` link, `<name>` must be lowercase kebab-case with no extension, and `recipes/<name>.md` must already exist → `photos/<name>.jpeg` + PR. Failed validation leaves a red run and creates no PR.
+- The two flows do not guard themselves (no `if:`); a new caller must repeat the label/author checks. Requires the `DEEPSEEK_API_KEY` repo secret.
 
 ## Gotchas
 - `.gitignore` ignores `package.json`/`package-lock.json` at every depth; test manifests already exist in `tests/`. Use `git add -f` if dependency manifests must be committed.

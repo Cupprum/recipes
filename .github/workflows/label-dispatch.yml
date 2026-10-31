@@ -14,7 +14,8 @@ jobs:
       contents: write
       pull-requests: write
     uses: ./.github/workflows/new-recipe.yml
-    secrets: inherit
+    secrets:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
   add-photo:
     if: |
@@ -24,4 +25,3 @@ jobs:
       contents: write
       pull-requests: write
     uses: ./.github/workflows/add-photo.yml
-    secrets: inherit

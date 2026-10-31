@@ -2,6 +2,9 @@ name: Add new recipe
 
 on:
   workflow_call:
+    secrets:
+      DEEPSEEK_API_KEY:
+        required: true
 
 jobs:
   create-recipe-pr:
