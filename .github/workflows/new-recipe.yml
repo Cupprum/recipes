@@ -1,15 +1,10 @@
 name: Add new recipe
 
 on:
-  issues:
-    types: 
-      - opened
+  workflow_call:
 
 jobs:
   create-recipe-pr:
-    if: |
-      startsWith(github.event.issue.title, 'new-recipe ') &&
-      github.event.issue.user.login == 'Cupprum'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -22,8 +17,8 @@ jobs:
       - name: Extract Recipe Name
         id: vars
         run: |
-          # Extract "pizza" from "new-recipe pizza #2"
-          read -r _ RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
+          # Extract "pizza" from "pizza #2"
+          read -r RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
           echo "filename=${RECIPE_NAME}.md" >> $GITHUB_OUTPUT
 
       - name: Format Recipe

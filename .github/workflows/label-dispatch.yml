@@ -1,0 +1,27 @@
+name: Issue labels
+
+on:
+  issues:
+    types:
+      - labeled
+
+jobs:
+  new-recipe:
+    if: |
+      github.event.label.name == 'recipe' &&
+      github.event.issue.user.login == 'Cupprum'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/new-recipe.yml
+    secrets: inherit
+
+  add-photo:
+    if: |
+      github.event.label.name == 'photo' &&
+      github.event.issue.user.login == 'Cupprum'
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/add-photo.yml
+    secrets: inherit

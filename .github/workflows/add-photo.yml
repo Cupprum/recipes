@@ -1,15 +1,10 @@
 name: Add photo
 
 on:
-  issues:
-    types: 
-      - opened
+  workflow_call:
 
 jobs:
   add-photo-pr:
-    if: |
-      startsWith(github.event.issue.title, 'add-photo ') &&
-      github.event.issue.user.login == 'Cupprum'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,7 +18,7 @@ jobs:
         id: vars
         run: |
           # Extract "pizza" from "add-photo pizza #2"
-          read -r _ RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
+          read -r RECIPE_NAME _ <<< "${{ github.event.issue.title }}"
           echo "recipe=${RECIPE_NAME}" >> "$GITHUB_OUTPUT"
           echo "filename=${RECIPE_NAME}.jpeg" >> "$GITHUB_OUTPUT"
 
@@ -36,7 +31,7 @@ jobs:
             exit 1
           fi
           if [ ! -f "recipes/$RECIPE_NAME.md" ]; then
-            echo "ERROR: recipes/$RECIPE_NAME.md does not exist. Create the recipe first (new-recipe $RECIPE_NAME)." >&2
+            echo "ERROR: recipes/$RECIPE_NAME.md does not exist." >&2
             exit 1
           fi
 
@@ -45,7 +40,7 @@ jobs:
         env:
           BODY: ${{ github.event.issue.body }}
         run: |
-          URL=$(printf '%s' "$BODY" | grep -oE 'https://github\.com/user-attachments/assets/[0-9a-f-]+' | head -1)
+          URL=$(echo "$BODY" | grep -oE 'https://github\.com/user-attachments/assets/[0-9a-f-]+' | head -1)
           [ -z "$URL" ] && { echo "ERROR: no image link in issue body" >&2; exit 1; }
           echo "url=${URL}" >> $GITHUB_OUTPUT
 
