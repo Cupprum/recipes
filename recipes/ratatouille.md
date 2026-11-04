@@ -3,7 +3,7 @@
 ## Ingredients
 * Red onion - 1 large
 * Oil
-* Chopped tomatoes - 3 cans
+* Chopped tomatoes - 2 cans
 * Tomato puree - 1/2 can
 * Zucchini - 2
 * Aubergine - 1
@@ -14,7 +14,7 @@
 * Pepper
 * Salt
 * Dried oregano
-* Fresh rosemary
+* Rosemary
 * Fresh basil
 * Potatoes
 * Wine
