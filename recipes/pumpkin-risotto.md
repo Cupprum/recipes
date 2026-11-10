@@ -13,7 +13,7 @@
 * Wine
 
 ## Steps
-1. Cut the pumpkin into bite-sized chunks; there is no need to peel it.
+1. Cut the pumpkin into bite-sized chunks, there is no need to peel it.
 2. Put the chunks and whole unpeeled garlic cloves on a baking tray.
 3. Sprinkle with rosemary, thyme, black pepper, and olive oil.
 4. Bake at 200°C until soft.
